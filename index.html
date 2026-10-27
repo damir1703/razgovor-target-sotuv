@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Таргет-лиды и оплаты · Razgovor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Lora:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--color-fg:#1d2230;--color-fg-muted:#5f6675;--color-bg:#f6f7f9;--color-panel:#ffffff;--color-border-line:#e1e4ea;
+--color-ok:#1f7a4d;--color-warn:#9a6a00;--color-bad:#c0392b;
+--cds-chart-muted:#b9c0cc;--cds-chart-status-critical:#d4574a;--cds-chart-reference:#7a8190;--cds-chart-grid:#e6e9ee;
+--cds-surface-popover:#ffffff;--cds-border:#d5d9e0;--cds-shadow-popover:0 4px 16px rgba(20,30,50,.12);--cds-text-secondary:#5f6675;
+--accent:#2f6fd6;
+--font-anthropic-sans:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif;--font-anthropic-serif:"Lora",Georgia,serif;
+--cds-font-size-caption:.8125rem;--cds-font-size-body:.9375rem;--cds-font-size-heading:1.125rem;--cds-font-size-title:1.75rem;--cds-font-weight-medium:600;
+--cds-gap-xs:.25rem;--cds-gap-sm:.5rem;--cds-gap-md:1rem;--cds-gap-lg:1.5rem;--cds-gap-xl:2.25rem;
+--cds-pad-xs:.375rem;--cds-pad-sm:.625rem;--cds-pad-lg:1.25rem;--cds-radius:10px;--cds-dur-slow:.3s}
+@media (prefers-color-scheme: dark){:root{--color-fg:#e8eaf0;--color-fg-muted:#a0a7b4;--color-bg:#14171d;--color-panel:#1c2028;--color-border-line:#2c323d;
+--color-ok:#5cc58f;--color-warn:#e0b04a;--color-bad:#ef7a6c;--cds-chart-muted:#4a5262;--cds-chart-status-critical:#e06a5c;--cds-chart-reference:#8a92a2;
+--cds-surface-popover:#232833;--cds-border:#3a414e;--cds-text-secondary:#a0a7b4;--accent:#6fa3ff;color-scheme:dark}}
+html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font:15px/1.45 var(--font-anthropic-sans)}
+body{padding-block:2rem 3rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.dash-skeleton{color:transparent}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+window.DATA={"summary": [{"leads": 11271, "pays": 258, "conv": 0.0229, "revenue_mln": 636.3, "spend_usd": 8623, "cost_per_pay_usd": 33, "roas": 5.9, "lag_days_median": 2.0, "unmatched_pays": 79}], "creatives": [{"creative": "Blogger B zahod3", "video_sec": 105, "leads": 873, "pays": 21, "conv": 0.0241, "spend_usd": 256, "cpl_usd": 0.29, "cost_per_pay_usd": 12, "revenue_mln": 65.6, "roas": 20.4, "verdict": "Сильный"}, {"creative": "Blogger C Project24", "video_sec": 111, "leads": 834, "pays": 15, "conv": 0.018, "spend_usd": 198, "cpl_usd": 0.24, "cost_per_pay_usd": 13, "revenue_mln": 41.7, "roas": 16.7, "verdict": "Сильный"}, {"creative": "oktabr IMG_7432", "video_sec": 60, "leads": 112, "pays": 3, "conv": 0.0268, "spend_usd": 51, "cpl_usd": 0.45, "cost_per_pay_usd": 17, "revenue_mln": 7.4, "roas": 11.5, "verdict": "Мало данных"}, {"creative": "aprel 5", "video_sec": 52, "leads": 1655, "pays": 66, "conv": 0.0399, "spend_usd": 1451, "cpl_usd": 0.88, "cost_per_pay_usd": 22, "revenue_mln": 160.4, "roas": 8.8, "verdict": "Сильный"}, {"creative": "k20", "video_sec": 31, "leads": 214, "pays": 5, "conv": 0.0234, "spend_usd": 159, "cpl_usd": 0.74, "cost_per_pay_usd": 32, "revenue_mln": 12.9, "roas": 6.4, "verdict": "Мало данных"}, {"creative": "iyun new c4", "video_sec": 47, "leads": 602, "pays": 27, "conv": 0.0449, "spend_usd": 871, "cpl_usd": 1.45, "cost_per_pay_usd": 32, "revenue_mln": 68.4, "roas": 6.2, "verdict": "Сильный"}, {"creative": "k2 8 forma", "video_sec": 45, "leads": 1741, "pays": 41, "conv": 0.0235, "spend_usd": 1392, "cpl_usd": 0.8, "cost_per_pay_usd": 34, "revenue_mln": 95.2, "roas": 5.4, "verdict": "Средний"}, {"creative": "aprel 2", "video_sec": 35, "leads": 1129, "pays": 23, "conv": 0.0204, "spend_usd": 948, "cpl_usd": 0.84, "cost_per_pay_usd": 41, "revenue_mln": 55.2, "roas": 4.6, "verdict": "Средний"}, {"creative": "aprel 4", "video_sec": 57, "leads": 1573, "pays": 27, "conv": 0.0172, "spend_usd": 1281, "cpl_usd": 0.81, "cost_per_pay_usd": 47, "revenue_mln": 60.2, "roas": 3.7, "verdict": "Слабый"}, {"creative": "avgust t2 · CRM Lookalike", "video_sec": 59, "leads": 448, "pays": 7, "conv": 0.0156, "spend_usd": 373, "cpl_usd": 0.83, "cost_per_pay_usd": 53, "revenue_mln": 16.3, "roas": 3.5, "verdict": "Слабый"}, {"creative": "aprel 3", "video_sec": 63, "leads": 196, "pays": 4, "conv": 0.0204, "spend_usd": 181, "cpl_usd": 0.93, "cost_per_pay_usd": 45, "revenue_mln": 8.0, "roas": 3.5, "verdict": "Мало данных"}, {"creative": "sentabr 5", "video_sec": 49, "leads": 444, "pays": 7, "conv": 0.0158, "spend_usd": 370, "cpl_usd": 0.83, "cost_per_pay_usd": 53, "revenue_mln": 15.2, "roas": 3.3, "verdict": "Слабый"}, {"creative": "Blogger A zahod2", "video_sec": 100, "leads": 607, "pays": 2, "conv": 0.0033, "spend_usd": 165, "cpl_usd": 0.27, "cost_per_pay_usd": 82, "revenue_mln": 5.7, "roas": 2.8, "verdict": "Слабый"}, {"creative": "oktabr IMG_7427", "video_sec": 47, "leads": 188, "pays": 0, "conv": 0.0, "spend_usd": 50, "cpl_usd": 0.27, "cost_per_pay_usd": null, "revenue_mln": 0.0, "roas": 0.0, "verdict": "Мало данных"}], "segments": [{"dimension": "Возраст", "segment": "18–22", "leads": 4004, "pays": 62, "conv": 0.0155, "revenue_mln": 140.1}, {"dimension": "Возраст", "segment": "22–26", "leads": 1604, "pays": 42, "conv": 0.0262, "revenue_mln": 103.4}, {"dimension": "Возраст", "segment": "30+", "leads": 3421, "pays": 111, "conv": 0.0324, "revenue_mln": 283.9}, {"dimension": "Возраст", "segment": "26–30", "leads": 1395, "pays": 37, "conv": 0.0265, "revenue_mln": 97.2}, {"dimension": "Возраст", "segment": "16–18", "leads": 782, "pays": 4, "conv": 0.0051, "revenue_mln": 5.9}, {"dimension": "Когда готов начать", "segment": "Завтра", "leads": 2979, "pays": 53, "conv": 0.0178, "revenue_mln": 129.0}, {"dimension": "Когда готов начать", "segment": "В течение 3 дней", "leads": 1170, "pays": 28, "conv": 0.0239, "revenue_mln": 73.3}, {"dimension": "Когда готов начать", "segment": "Когда подойдёт", "leads": 5646, "pays": 140, "conv": 0.0248, "revenue_mln": 342.0}, {"dimension": "Когда готов начать", "segment": "В течение недели", "leads": 1476, "pays": 37, "conv": 0.0251, "revenue_mln": 92.1}, {"dimension": "Главная проблема", "segment": "Трудно запоминать слова", "leads": 4247, "pays": 75, "conv": 0.0177, "revenue_mln": 195.0}, {"dimension": "Главная проблема", "segment": "Есть база, но путаюсь", "leads": 2578, "pays": 70, "conv": 0.0272, "revenue_mln": 173.2}, {"dimension": "Главная проблема", "segment": "Боюсь говорить", "leads": 2552, "pays": 67, "conv": 0.0263, "revenue_mln": 153.3}, {"dimension": "Главная проблема", "segment": "Уже ходил на курсы, толку не было", "leads": 889, "pays": 29, "conv": 0.0326, "revenue_mln": 72.4}, {"dimension": "Главная проблема", "segment": "Начинаю с нуля", "leads": 1005, "pays": 17, "conv": 0.0169, "revenue_mln": 42.5}, {"dimension": "Время заявки", "segment": "Ночь 00–07", "leads": 1466, "pays": 23, "conv": 0.0157, "revenue_mln": 57.1}, {"dimension": "Время заявки", "segment": "Вечер 18–24", "leads": 4724, "pays": 111, "conv": 0.0235, "revenue_mln": 286.4}, {"dimension": "Время заявки", "segment": "День 12–18", "leads": 3086, "pays": 77, "conv": 0.025, "revenue_mln": 178.3}, {"dimension": "Время заявки", "segment": "Утро 07–12", "leads": 1995, "pays": 47, "conv": 0.0236, "revenue_mln": 114.5}, {"dimension": "Номер в форме", "segment": "Ввёл тот же номер, что в профиле", "leads": 6551, "pays": 182, "conv": 0.0278, "revenue_mln": 435.0}, {"dimension": "Номер в форме", "segment": "Ввёл другой номер", "leads": 1527, "pays": 28, "conv": 0.0183, "revenue_mln": 63.3}, {"dimension": "Номер в форме", "segment": "Одно поле (номер из профиля)", "leads": 3193, "pays": 48, "conv": 0.015, "revenue_mln": 138.0}, {"dimension": "Форма", "segment": "Sentabr natijalar kanali v2", "leads": 1015, "pays": 16, "conv": 0.0158, "revenue_mln": 36.6}, {"dimension": "Форма", "segment": "Blogger C Project24", "leads": 760, "pays": 14, "conv": 0.0184, "revenue_mln": 38.6}, {"dimension": "Форма", "segment": "Blogger B zahod3", "leads": 802, "pays": 16, "conv": 0.02, "revenue_mln": 52.2}, {"dimension": "Форма", "segment": "Blogger A zahod2", "leads": 554, "pays": 1, "conv": 0.0018, "revenue_mln": 3.1}, {"dimension": "Форма", "segment": "Sentabr natijalar kanali 16.09.2026", "leads": 652, "pays": 13, "conv": 0.0199, "revenue_mln": 34.7}, {"dimension": "Форма", "segment": "Avgust yangi kreativ", "leads": 458, "pays": 8, "conv": 0.0175, "revenue_mln": 17.3}, {"dimension": "Форма", "segment": "12% iyun", "leads": 602, "pays": 27, "conv": 0.0449, "revenue_mln": 68.4}, {"dimension": "Форма", "segment": "Forma 20", "leads": 214, "pays": 5, "conv": 0.0234, "revenue_mln": 12.9}, {"dimension": "Форма", "segment": "Forma 8", "leads": 1436, "pays": 34, "conv": 0.0237, "revenue_mln": 77.2}, {"dimension": "Форма", "segment": "forma 5", "leads": 1482, "pays": 63, "conv": 0.0425, "revenue_mln": 153.3}, {"dimension": "Форма", "segment": "Forma 4", "leads": 1573, "pays": 27, "conv": 0.0172, "revenue_mln": 60.2}, {"dimension": "Форма", "segment": "Forma 3", "leads": 196, "pays": 4, "conv": 0.0204, "revenue_mln": 8.0}, {"dimension": "Форма", "segment": "Forma 2", "leads": 654, "pays": 15, "conv": 0.0229, "revenue_mln": 37.8}, {"dimension": "Форма", "segment": "Forma 1", "leads": 631, "pays": 8, "conv": 0.0127, "revenue_mln": 17.4}]};
+window.dash={colors:[getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#2f6fd6'],
+ data:(id)=>({status:'ok',data:DATA[id]}),
+ onData(fn){const run=()=>fn();document.readyState==='loading'?document.addEventListener('DOMContentLoaded',run):run();
+   let t;addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(run,150)});}};
+</script>
+</head><body>
+<style>
+.rz { display: flex; flex-direction: column; gap: var(--cds-gap-xl); font-family: var(--font-anthropic-sans); max-width: 72rem; margin-inline: auto; }
+.rz h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+.rz h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; text-wrap: balance; }
+.rz h3 { font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); margin: 0; }
+.rz p { margin: 0; max-width: 68ch; line-height: 1.5; }
+.rz .muted { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.rz .head { display: flex; flex-direction: column; gap: var(--cds-gap-sm); }
+.rz .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: var(--cds-gap-md); }
+.rz .kpi, .rz .card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; }
+.rz .kpi { display: flex; flex-direction: column; gap: var(--cds-gap-xs); }
+.rz .kpi .v { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; }
+.rz .card { display: flex; flex-direction: column; gap: var(--cds-gap-md); }
+.rz .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--cds-gap-md); }
+.rz section { display: flex; flex-direction: column; gap: var(--cds-gap-md); }
+.rz .chart { position: relative; min-height: 120px; }
+.rz .tbl { overflow-x: auto; }
+.rz table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: var(--cds-font-size-caption); }
+.rz th, .rz td { padding: var(--cds-pad-xs) var(--cds-pad-sm); text-align: right; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+.rz th:first-child, .rz td:first-child { text-align: left; }
+.rz th { font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); }
+.rz .pill { display: inline-block; padding: 0 var(--cds-pad-sm); border-radius: 999px; font-size: var(--cds-font-size-caption); border: 1px solid currentColor; }
+.rz .good { color: var(--color-ok); } .rz .mid { color: var(--color-warn); } .rz .bad { color: var(--color-bad); } .rz .na { color: var(--color-fg-muted); }
+.rz ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: var(--cds-gap-sm); line-height: 1.5; max-width: 72ch; }
+.rz .tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); }
+.rz .tip .k { color: var(--cds-text-secondary); }
+</style>
+
+<div class="rz">
+  <div class="head">
+    <h1>Таргет-лиды и оплаты</h1>
+    <p class="muted">Заявки из лид-форм с 1 сентября по 20 октября 2026, оплаты в Bitrix по 27 октября. Найм исключён.</p>
+    <p id="takeaway" data-source="summary creatives" class="dash-skeleton">—</p>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><span class="muted">Оплат</span><span class="v dash-skeleton" data-source="summary" data-field="pays" data-row="0">—</span></div>
+    <div class="kpi"><span class="muted">Выручка, млн сум</span><span class="v dash-skeleton" data-source="summary" data-field="revenue_mln" data-row="0">—</span></div>
+    <div class="kpi"><span class="muted">Расход на рекламу</span><span class="v dash-skeleton" data-source="summary" data-field="spend_usd" data-row="0">—</span></div>
+    <div class="kpi"><span class="muted">Цена одной оплаты</span><span class="v dash-skeleton" data-source="summary" data-field="cost_per_pay_usd" data-row="0">—</span></div>
+    <div class="kpi"><span class="muted">Окупаемость (ROAS)</span><span class="v dash-skeleton" data-source="summary" data-field="roas" data-row="0">—</span></div>
+    <div class="kpi"><span class="muted">Лид → оплата</span><span class="v dash-skeleton" data-source="summary" data-field="conv" data-row="0">—</span></div>
+  </div>
+
+  <section id="creatives">
+    <h2>Какие ролики приводят оплаты</h2>
+    <p class="muted">ROAS — сколько выручки на каждый вложенный доллар. Ролик склеен по видео: одно видео под разными названиями считается вместе. Показаны ролики с расходом от $40.</p>
+    <div class="card">
+      <h3>Окупаемость по роликам</h3>
+      <div class="chart" id="roasChart" data-source="creatives"></div>
+    </div>
+    <div class="card">
+      <h3>Подробно по роликам</h3>
+      <p class="muted">Цена лида и цена оплаты расходятся: дешёвый лид не значит дешёвого клиента. «Мало данных» — меньше 300 лидов, выводы по такому ролику делать рано.</p>
+      <div class="tbl">
+        <table id="crTable" data-source="creatives" data-row-key="creative">
+          <thead><tr>
+            <th data-field="creative">Ролик</th><th data-field="leads">Лидов</th><th data-field="pays">Оплат</th>
+            <th data-field="conv">Лид→оплата</th><th data-field="spend_usd">Расход</th><th data-field="cpl_usd">Цена лида</th>
+            <th data-field="cost_per_pay_usd">Цена оплаты</th><th data-field="revenue_mln">Выручка, млн</th><th data-field="roas">ROAS</th><th data-field="verdict">Итог</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="who">
+    <h2>Кто из лидов покупает</h2>
+    <p class="muted">Доля лидов, дошедших до оплаты, по ответам в форме. Пунктир — средняя по всем лидам. Группы меньше 150 лидов не показаны.</p>
+    <div class="grid" id="segGrid" data-source="segments summary"></div>
+  </section>
+
+  <section id="todo">
+    <h2>Что с этим делать</h2>
+    <div class="card"><ul id="todoList" data-source="creatives segments"></ul></div>
+  </section>
+
+  <section id="method">
+    <h2>Как считали</h2>
+    <ul class="muted">
+      <li>Заявку из Facebook связывали с оплатой в Bitrix по телефону, по обоим номерам из формы: метки UTM в Bitrix не заполняются. Оплата приписана последней заявке человека до даты оплаты.</li>
+      <li>Оплата — лид в статусе «Сконвертирован» с суммой сделки. Доллар — 12 600 сум.</li>
+      <li>Часть оплат не нашла заявку в формах (пришли по звонку, из Instagram или со старых форм): <span data-source="summary" data-field="unmatched_pays" data-row="0">—</span> шт. Они в отчёт не вошли.</li>
+      <li>От заявки до оплаты в среднем <span data-source="summary" data-field="lag_days_median" data-row="0">—</span> дн., поэтому заявки после 20 октября не брали. У роликов октябрьского теста оплаты ещё будут добавляться.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+(function () {
+  const f0 = d3.format(','), pct = d3.format('.1%'), usd = (v) => '$' + d3.format(',')(v);
+  const ORDER = { 'Возраст': ['16–18', '18–22', '22–26', '26–30', '30+'],
+                  'Когда готов начать': ['Завтра', 'В течение 3 дней', 'В течение недели', 'Когда подойдёт'],
+                  'Время заявки': ['Ночь 00–07', 'Утро 07–12', 'День 12–18', 'Вечер 18–24'] };
+  const DIMS = ['Возраст', 'Главная проблема', 'Когда готов начать', 'Номер в форме', 'Время заявки', 'Форма'];
+  const cls = (v) => v === 'Сильный' ? 'good' : v === 'Слабый' ? 'bad' : v === 'Мало данных' ? 'na' : 'mid';
+
+  function fail(el) {
+    el.textContent = '';
+    const w = document.createElement('div');
+    w.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:.5rem;min-height:inherit';
+    const dot = document.createElement('span');
+    dot.style.cssText = 'width:.375rem;height:.375rem;border-radius:50%;background:var(--color-bad)';
+    const t = document.createElement('span'); t.className = 'muted'; t.textContent = 'Failed to load';
+    w.append(dot, t); el.append(w);
+  }
+
+  function tooltip(box) {
+    let tip = box.querySelector('.tip');
+    if (!tip) { tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; box.append(tip); }
+    return {
+      show(ev, k, line) {
+        tip.textContent = '';
+        const a = document.createElement('div'); a.className = 'k'; a.textContent = k;
+        const b = document.createElement('div'); b.textContent = line;
+        tip.append(a, b); tip.hidden = false;
+        const r = box.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top;
+        tip.style.left = Math.min(Math.max(0, x + 12), box.clientWidth - tip.offsetWidth) + 'px';
+        tip.style.top = Math.max(0, y - tip.offsetHeight - 8) + 'px';
+      },
+      hide() { tip.hidden = true; }
+    };
+  }
+
+  // горизонтальные столбики: rows [{label, value, text, color}]
+  function hbars(box, rows, opts) {
+    const svgOld = box.querySelector('svg'); if (svgOld) svgOld.remove();
+    const W = box.clientWidth || 600, bh = 22, gap = 8, H = rows.length * (bh + gap) + 8;
+    const svg = d3.select(box).insert('svg', ':first-child').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+    const meas = svg.append('text').attr('font-size', 12);
+    let lw = 0; rows.forEach(r => { meas.text(r.label); lw = Math.max(lw, meas.node().getComputedTextLength()); });
+    let vw = 0; rows.forEach(r => { meas.text(r.text); vw = Math.max(vw, meas.node().getComputedTextLength()); });
+    meas.remove();
+    lw = Math.min(lw + 10, W * 0.5);
+    const x = d3.scaleLinear([0, d3.max(rows, r => r.value) || 1], [0, Math.max(40, W - lw - vw - 14)]);
+    const tt = tooltip(box);
+    const g = svg.selectAll('g.r').data(rows).join('g').attr('transform', (d, i) => `translate(0,${i * (bh + gap) + 4})`);
+    g.append('text').attr('x', lw - 8).attr('y', bh / 2).attr('dy', '0.35em').attr('text-anchor', 'end')
+      .attr('font-size', 12).attr('fill', 'var(--color-fg)').text(d => d.label)
+      .each(function (d) {
+        let t = d.label;
+        while (t.length > 3 && this.getComputedTextLength() > lw - 10) { t = t.slice(0, -1); this.textContent = t + '…'; }
+        if (t !== d.label) d3.select(this).append('title').text(d.label);
+      });
+    g.append('rect').attr('x', lw).attr('height', bh).attr('rx', 4).attr('width', d => Math.max(2, x(d.value)))
+      .attr('fill', d => d.color)
+      .on('mousemove', (ev, d) => tt.show(ev, d.label, d.tip || d.text)).on('mouseleave', () => tt.hide());
+    g.append('text').attr('x', d => lw + Math.max(2, x(d.value)) + 6).attr('y', bh / 2).attr('dy', '0.35em')
+      .attr('font-size', 12).attr('fill', 'var(--color-fg-muted)').text(d => d.text);
+    if (opts && opts.ref != null) {
+      svg.append('line').attr('x1', lw + x(opts.ref)).attr('x2', lw + x(opts.ref)).attr('y1', 0).attr('y2', H)
+        .attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 3');
+    }
+    box.style.minHeight = H + 'px';
+  }
+
+  dash.onData(() => {
+    const S = dash.data('summary'), C = dash.data('creatives'), G = dash.data('segments');
+
+    // KPI
+    document.querySelectorAll('[data-source="summary"][data-field]').forEach(el => {
+      if (S.status !== 'ok') { el.textContent = '—'; if (S.status === 'error') el.classList.remove('dash-skeleton'); return; }
+      el.classList.remove('dash-skeleton');
+      const v = S.data[0][el.dataset.field];
+      const fmt = { conv: pct, spend_usd: usd, cost_per_pay_usd: usd, roas: (x) => x + '×' }[el.dataset.field] || f0;
+      el.textContent = fmt(v);
+    });
+
+    // главный вывод
+    const tk = document.getElementById('takeaway');
+    if (S.status === 'ok' && C.status === 'ok') {
+      tk.classList.remove('dash-skeleton');
+      const s = S.data[0], best = C.data[0], worst = C.data.filter(r => r.leads >= 300).slice(-1)[0];
+      tk.textContent = `Каждая оплата обошлась в среднем в ${usd(s.cost_per_pay_usd)}, реклама окупилась в ${s.roas}×. `
+        + `Лучший ролик «${best.creative}» окупается в ${best.roas}×, худший «${worst.creative}» — в ${worst.roas}×.`;
+    } else { tk.textContent = '—'; }
+
+    // ролики: график и таблица
+    const rc = document.getElementById('roasChart');
+    const tb = document.querySelector('#crTable tbody');
+    tb.textContent = '';
+    if (C.status === 'ok') {
+      hbars(rc, C.data.map(r => ({
+        label: r.creative, value: r.roas, text: r.roas + '×',
+        tip: `ROAS ${r.roas}× · оплат ${r.pays} · цена оплаты ${r.cost_per_pay_usd ? usd(r.cost_per_pay_usd) : '—'}`,
+        color: r.verdict === 'Сильный' ? dash.colors[0] : r.verdict === 'Слабый' ? 'var(--cds-chart-status-critical)' : 'var(--cds-chart-muted)'
+      })));
+      C.data.forEach(r => {
+        const tr = document.createElement('tr');
+        const cells = [r.creative, f0(r.leads), f0(r.pays), pct(r.conv), usd(r.spend_usd), '$' + r.cpl_usd.toFixed(2),
+                       r.cost_per_pay_usd ? usd(r.cost_per_pay_usd) : '—', r.revenue_mln, r.roas + '×'];
+        cells.forEach(t => { const td = document.createElement('td'); td.textContent = t; tr.append(td); });
+        const td = document.createElement('td'); const p = document.createElement('span');
+        p.className = 'pill ' + cls(r.verdict); p.textContent = r.verdict; td.append(p); tr.append(td);
+        tb.append(tr);
+      });
+    } else if (C.status === 'error') { fail(rc); }
+    else { const o = rc.querySelector('svg'); if (o) o.remove(); }
+
+    // сегменты
+    const grid = document.getElementById('segGrid');
+    grid.textContent = '';
+    if (G.status === 'ok' && S.status === 'ok') {
+      const avg = S.data[0].conv, pending = [];
+      DIMS.forEach(dim => {
+        let rows = G.data.filter(r => r.dimension === dim);
+        if (!rows.length) return;
+        const ord = ORDER[dim];
+        rows = ord ? ord.map(k => rows.find(r => r.segment === k)).filter(Boolean) : rows.sort((a, b) => b.conv - a.conv);
+        const card = document.createElement('div'); card.className = 'card';
+        const h = document.createElement('h3'); h.textContent = dim;
+        const box = document.createElement('div'); box.className = 'chart';
+        card.append(h, box); grid.append(card);
+        pending.push(() => hbars(box, rows.map(r => ({
+          label: r.segment, value: r.conv, text: pct(r.conv),
+          tip: `${pct(r.conv)} · ${f0(r.pays)} оплат из ${f0(r.leads)} лидов`,
+          color: r.conv >= avg * 1.15 ? dash.colors[0] : r.conv <= avg * 0.7 ? 'var(--cds-chart-status-critical)' : 'var(--cds-chart-muted)'
+        })), { ref: avg }));
+      });
+      pending.forEach(f => f());
+    } else if (G.status === 'error') { fail(grid); }
+
+    // выводы
+    const ul = document.getElementById('todoList');
+    ul.textContent = '';
+    if (C.status === 'ok' && G.status === 'ok') {
+      const seg = (d, s) => G.data.find(r => r.dimension === d && r.segment === s) || {};
+      const cr = (n) => C.data.find(r => r.creative === n) || {};
+      const strong = C.data.filter(r => r.verdict === 'Сильный').map(r => `«${r.creative}» (${r.roas}×)`).join(', ');
+      const weak = C.data.filter(r => r.verdict === 'Слабый' && r.creative !== 'Blogger A zahod2').map(r => `«${r.creative}» (${r.roas}×)`).join(', ');
+      const items = [
+        `Держать и масштабировать сильные ролики: ${strong}.`,
+        `Слабые ролики выключать или переснимать: ${weak}. Дешёвый лид у них не превращается в оплату.`,
+        `Blogger A даёт лиды почти по той же цене, что Blogger B и C, но оплат почти нет: ${cr('Blogger A zahod2').pays} из ${f0(cr('Blogger A zahod2').leads || 0)} лидов. Это тот самый поток с номерами из профиля. Его стоит выключить.`,
+        `Возраст 30+ покупает в ${pct(seg('Возраст', '30+').conv)} случаев, 16–18 лет — в ${pct(seg('Возраст', '16–18').conv)}, 18–22 — в ${pct(seg('Возраст', '18–22').conv)}. Звонить в первую очередь 22+, а в рекламе поднять нижнюю границу возраста.`,
+        `Когда в форме только номер из профиля, до оплаты доходит ${pct(seg('Номер в форме', 'Одно поле (номер из профиля)').conv)} лидов против ${pct(seg('Номер в форме', 'Ввёл тот же номер, что в профиле').conv)}, если человек сам подтвердил номер. Поле «Telefon raqamingiz» нужно во всех формах.`,
+        `Ночные заявки (00–07) платят реже: ${pct(seg('Время заявки', 'Ночь 00–07').conv)}. Их стоит обзванивать первыми утром, пока не остыли.`,
+      ];
+      items.forEach(t => { const li = document.createElement('li'); li.textContent = t; ul.append(li); });
+    }
+  });
+})();
+</script>
+<p style="max-width:72rem;margin:2rem auto 0;color:var(--color-fg-muted);font-size:.8125rem">Источник: Facebook Lead Ads и Bitrix24 razgovor.uz. Собрано 27.10.2026.</p>
+</body></html>
